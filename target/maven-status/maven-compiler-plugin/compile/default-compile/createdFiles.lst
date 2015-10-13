@@ -1,0 +1,14 @@
+org/sssta/oj/security/UserDetailsService.class
+org/sssta/oj/security/TokenAuthenticationService.class
+org/sssta/oj/security/StatelessAuthenticationSecurityConfig.class
+org/sssta/oj/repositories/UserRepository.class
+org/sssta/oj/controllers/UserController.class
+org/sssta/oj/security/UserRole.class
+org/sssta/oj/security/TokenHandler.class
+org/sssta/oj/security/StatelessLoginFilter.class
+org/sssta/oj/Application$1.class
+org/sssta/oj/security/UserAuthentication.class
+org/sssta/oj/security/UserAuthority.class
+org/sssta/oj/security/StatelessAuthenticationFilter.class
+org/sssta/oj/Application.class
+org/sssta/oj/models/User.class
