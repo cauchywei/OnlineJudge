@@ -1,4 +1,4 @@
-var app = angular.module('SSSTAOJ', [ 'ngRoute' ]).config(function($routeProvider, $httpProvider) {
+var app = angular.module('SSSTAOJ', [ 'ngRoute' ,'ngMaterial','ngMessage']).config(function($routeProvider, $httpProvider) {
 
 	$routeProvider.when('/', {
 		templateUrl : 'home.html'
@@ -51,7 +51,7 @@ app.controller('AuthController', function ($scope, $http, TokenStorage,$log) {
 	$scope.authenticated = false;
 	$scope.token; // For display purposes only
 	$scope.credentials = {}
-	
+
 	$scope.init = function () {
 		$http.get('/api/users/current').success(function (user) {
 			if(user.username !== 'anonymousUser'){

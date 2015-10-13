@@ -1,16 +1,27 @@
-var app = angular.module('SSSTAOJ', [ 'ngRoute' ]).config(function($routeProvider, $httpProvider) {
+var ojapp = angular.module('SSSTAOJ', [ 'ngRoute' ,'ngMaterial' /*,'ngMessage'*/])
+
+    .config(function($routeProvider, $httpProvider) {
 
 	$routeProvider.when('/', {
 		templateUrl : 'home.html'
 	}).when('/login', {
 		templateUrl : 'login.html'
-	}).otherwise('/');
+	}).when('/library', {
+        templateUrl : 'library/library.html',
+        controller:'LibraryController'
+    }).when('/contest', {
+        templateUrl : 'contest/contest.html',
+        controller:'ContestController'
+    }).when('/rank', {
+        templateUrl : 'rank/rank.html',
+        controller:'RankController'
+    }).otherwise('/');
 
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 });
 
-app.factory('TokenStorage', function() {
+ojapp.factory('TokenStorage', function() {
 	var storageKey = 'auth_token';
 	return {		
 		store : function(token) {
@@ -23,7 +34,7 @@ app.factory('TokenStorage', function() {
 			return localStorage.removeItem(storageKey);
 		}
 	};
-}).factory('TokenAuthInterceptor', function($q,$location, TokenStorage) {
+}).factory('TokenAuthInterceptor',['$q','$location','TokenStorage',function($q,$location, TokenStorage) {
 	return {
 		request: function(config) {
 			var authToken = TokenStorage.retrieve();
@@ -40,18 +51,20 @@ app.factory('TokenStorage', function() {
 			return $q.reject(error);
 		}
 	};
-}).config(function($httpProvider) {
+}]).config(function($httpProvider) {
 	$httpProvider.interceptors.push('TokenAuthInterceptor');
 });
 
-app.controller('AuthController', function ($scope, $http, TokenStorage,$log) {
+ojapp.controller('AppController',['$scope','$http','TokenStorage','menu',function ($scope, $http, TokenStorage,menu) {
 
 	var auth = this;
+
+    $scope.menu = menu;
 
 	$scope.authenticated = false;
 	$scope.token; // For display purposes only
 	$scope.credentials = {}
-	
+
 	$scope.init = function () {
 		$http.get('/api/users/current').success(function (user) {
 			if(user.username !== 'anonymousUser'){
@@ -80,4 +93,4 @@ app.controller('AuthController', function ($scope, $http, TokenStorage,$log) {
 		TokenStorage.clear();	
 		$scope.authenticated = false;
 	};
-});
+}]);
