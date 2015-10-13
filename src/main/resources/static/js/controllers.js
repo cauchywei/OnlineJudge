@@ -1,4 +1,4 @@
-var app = angular.module('statelessApp', [ 'ngRoute' ]).config(function($routeProvider, $httpProvider) {
+var app = angular.module('SSSTAOJ', [ 'ngRoute' ]).config(function($routeProvider, $httpProvider) {
 
 	$routeProvider.when('/', {
 		templateUrl : 'home.html'
@@ -44,9 +44,13 @@ app.factory('TokenStorage', function() {
 	$httpProvider.interceptors.push('TokenAuthInterceptor');
 });
 
-app.controller('AuthCtrl', function ($scope, $http, TokenStorage) {
+app.controller('AuthController', function ($scope, $http, TokenStorage,$log) {
+
+	var auth = this;
+
 	$scope.authenticated = false;
 	$scope.token; // For display purposes only
+	$scope.credentials = {}
 	
 	$scope.init = function () {
 		$http.get('/api/users/current').success(function (user) {
@@ -61,7 +65,8 @@ app.controller('AuthCtrl', function ($scope, $http, TokenStorage) {
 	};
 
 	$scope.login = function () {
-		$http.post('/api/login', { username: $scope.username, password: $scope.password }).success(function (result, status, headers) {
+
+		$http.post('/api/login', { username: $scope.credentials.username, password: $scope.credentials.password }).success(function (result, status, headers) {
 			$scope.authenticated = true;
 			TokenStorage.store(headers('X-AUTH-TOKEN'));
 			

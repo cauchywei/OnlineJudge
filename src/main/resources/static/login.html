@@ -1,7 +1,7 @@
 <div ng-hide="authenticated">
     Login as user/user or admin/admin:<br>
-    <label for="un">Username:</label><input id="un" type="text" ng-model="username"><br>
-    <label for="pw">Password:</label><input id="pw" type="password" ng-model="password"><br>
+    <label for="un">Username:</label><input id="un" type="text" ng-model="credentials.username"><br>
+    <label for="pw">Password:</label><input id="pw" type="password" ng-model="credentials.password"><br>
     <button ng-click="login()">Login</button>
 </div>
 <div ng-show="authenticated">

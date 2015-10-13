@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html ng-app="statelessApp">
+<html ng-app="SSSTAOJ">
 <head lang="en">
     <title>Stateless Authentication Example</title>
 
 </head>
-<body  ng-controller="AuthCtrl" ng-init="init()" style="padding: 10% 20%">
-
+<body  ng-controller="AuthController as auth" ng-init="init()" style="padding: 10% 20%">
+<button>{{credentials.username}}</button>
 <div ng-view></div>
 
 <script src="bower_components/angular/angular.js"></script>
