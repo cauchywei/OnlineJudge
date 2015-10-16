@@ -1,46 +1,51 @@
 <!DOCTYPE html>
-<html ng-app="SSSTAOJ">
+<html ng-app="soja">
 <head lang="en">
     <meta charset="utf-8">
     <title>SSSTA OJ</title>
     <link rel="stylesheet" href="css/ssstaoj.css">
     <link rel="stylesheet" href="css/defualt.css">
     <link rel="stylesheet" href="css/sidenav.css">
+    <link rel="stylesheet" href="css/svg-sprite-action.css">
     <link rel="stylesheet" href="bower_components/angular-material/angular-material.css">
 
 
 </head>
 <body ng-controller="AppController as app" ng-init="init()" ng-cloak layout="row">
-<md-sidenav class="site-sidenav nd-sidenav-left md-whiteframe-z2"
+<md-sidenav class="site-sidenav nd-sidenav-left md-whiteframe"
             md-component-id="left"
             md-is-locked-open="$mdMedia('gt-sm')">
 
-    <md-toolbar class="md-whiteframe-z1">
-        <h2>SSSTA OJ</h2>
+    <md-toolbar id="header-title" class="md-whiteframe">
+        <h2 class="md-display-1">SOJA</h2>
     </md-toolbar>
+    <div style="position: relative;">
+        <header class="nav-header">
+            <div style="text-align:center;">
+                <img ng-src="img/avatar.png"  class="avatar"/>
+                <!--<div ng-show="!app.authenticated" class="avatar">?</div>-->
+                <b class="username" >Hello,World</b>
+            </div>
+        </header>
+        <md-content flex role="navigation">
+            <md-list>
+                <md-list-item  ng-repeat="item in menu.items" style="min-height: 36px">
+                    <md-button  ng-click="menu.selectItem(item)" ng-class="{'selected' : menu.isSelected(item)}"
+                            >
+                        <md-icon md-svg-icon="{{item.icon}}"></md-icon>
+                        <div style="margin-left: 8px;display:inline-block">{{item.name}}</div>
 
-    <header class="nav-header">
-        <div style="text-align:center;">
-            <img ng-src="img/avatar.png" class="avatar"/>
-            <b class="username" >Hello,World</b>
-        </div>
-    </header>
-    <md-content flex role="navigation">
-        <md-list>
-            <md-list-item  ng-repeat="item in menu.items" style="min-height: 36px">
-                <md-button ng-click="menu.selectItem(item)" ng-class="{'selected' : menu.isSelected(item) }"
-                           >
-                    <md-icon md-svg-icon="{{item.avatar}}" class="avatar"></md-icon>
-                    {{item.name}}
-                </md-button>
-            </md-list-item>
-        </md-list>
-    </md-content>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-content>
+    </div>
+    <div class="copyright">SSSTA · Xidian University</div>
 
 </md-sidenav>
 
 
-<div ng-view></div>
+<div ng-view class="page-content"></div>
 
 <script src="bower_components/angular/angular.js"></script>
 <script src="bower_components/angular-route/angular-route.js"></script>
@@ -50,7 +55,7 @@
 <script src="bower_components/angular-messages/angular-messages.js"></script>
 <script src="js/app.js"></script>
 <script src="js/menu.js"></script>
-<script src="library/library-controller.js"></script>
+<script src="content/library/library-controller.js"></script>
 
 </body>
 </html>

@@ -1,27 +1,53 @@
-var ojapp = angular.module('SSSTAOJ', [ 'ngRoute' ,'ngMaterial' /*,'ngMessage'*/])
+var soja = angular.module('soja', [ 'ngRoute' ,'ngMaterial' /*,'ngMessage'*/])
 
     .config(function($routeProvider, $httpProvider) {
 
 	$routeProvider.when('/', {
-		templateUrl : 'home.html'
+		templateUrl : 'content/home/home.html'
 	}).when('/login', {
 		templateUrl : 'login.html'
 	}).when('/library', {
-        templateUrl : 'library/library.html',
+        templateUrl : 'content/library/library.html',
         controller:'LibraryController'
     }).when('/contest', {
-        templateUrl : 'contest/contest.html',
+        templateUrl : 'content/contest/contest.html',
         controller:'ContestController'
     }).when('/rank', {
-        templateUrl : 'rank/rank.html',
+        templateUrl : 'content/rank/rank.html',
+        controller:'RankController'
+    }).when('/about', {
+        templateUrl : 'content/about/about.html',
         controller:'RankController'
     }).otherwise('/');
 
 	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+})
+    .config(function($mdThemingProvider, $mdIconProvider){
+
+        $mdIconProvider
+            .defaultIconSet()
+            .icon("home", "./assets/svg/ic_home.svg", 24)
+        .icon("library", "./assets/svg/ic_library.svg", 24)
+        .icon("contest", "./assets/svg/ic_contest.svg", 24)
+        .icon("rank", "./assets/svg/ic_rank.svg", 24)
+        .icon("about", "./assets/svg/ic_about.svg", 24)
+
+
+        $mdThemingProvider.theme('dark')
+            //.primaryPalette('brown')
+            //.accentPalette('pink');
+
+    });
+
+soja.factory("appinfo", function () {
+
+    return {
+        name:'SOJA'
+    }
 });
 
-ojapp.factory('TokenStorage', function() {
+soja.factory('TokenStorage', function() {
 	var storageKey = 'auth_token';
 	return {		
 		store : function(token) {
@@ -55,7 +81,9 @@ ojapp.factory('TokenStorage', function() {
 	$httpProvider.interceptors.push('TokenAuthInterceptor');
 });
 
-ojapp.controller('AppController',['$scope','$http','TokenStorage','menu',function ($scope, $http, TokenStorage,menu) {
+
+
+soja.controller('AppController',['$scope','$http','TokenStorage','menu',function ($scope, $http, TokenStorage,menu) {
 
 	var auth = this;
 
@@ -64,6 +92,7 @@ ojapp.controller('AppController',['$scope','$http','TokenStorage','menu',functio
 	$scope.authenticated = false;
 	$scope.token; // For display purposes only
 	$scope.credentials = {}
+
 
 	$scope.init = function () {
 		$http.get('/api/users/current').success(function (user) {

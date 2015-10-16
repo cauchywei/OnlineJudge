@@ -1,29 +1,34 @@
 /**
  * Created by cauchywei on 15/10/13.
  */
-ojapp.factory('menu',['$location',function ($location) {
+soja.factory('menu',['$location',function ($location) {
     var self = this;
     var items =
         [
             {
                 name: '主页',
-                url: '/'
+                url: '/',
+                icon:'home'
             },
             {
                 name: '题库',
-                url: '/library'
+                url: '/library',
+                icon:'library'
             },
             {
                 name: '比赛',
-                url: '/contest'
+                url: '/contest',
+                icon:'contest'
             },
             {
                 name: '排名',
-                url: '/rank'
+                url: '/rank',
+                icon:'rank'
             },
             {
                 name: '关于',
-                url: 'about'
+                url: '/about',
+                icon:'about'
             }];
 
     var currentItem = items[0];
