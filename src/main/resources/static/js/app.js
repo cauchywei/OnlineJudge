@@ -1,125 +1,130 @@
-var soja = angular.module('soja', [ 'ngRoute' ,'ngMaterial' /*,'ngMessage'*/])
+var soja = angular.module('soja', ['ngRoute', 'ngMaterial', /*,'ngMessage'*/])
 
-    .config(function($routeProvider, $httpProvider) {
+    .config(function ($routeProvider, $httpProvider, $locationProvider) {
 
-	$routeProvider.when('/', {
-		templateUrl : 'content/home/home.html'
-	}).when('/login', {
-		templateUrl : 'login.html'
-	}).when('/library', {
-        templateUrl : 'content/library/library.html',
-        controller:'LibraryController'
-    }).when('/contest', {
-        templateUrl : 'content/contest/contest.html',
-        controller:'ContestController'
-    }).when('/rank', {
-        templateUrl : 'content/rank/rank.html',
-        controller:'RankController'
-    }).when('/about', {
-        templateUrl : 'content/about/about.html',
-        controller:'RankController'
-    }).otherwise('/');
+        $routeProvider.when('/', {
+            templateUrl: 'content/public/home/home.html'
+        }).when('/login', {
+            templateUrl: 'login.html'
+        }).when('/library', {
+            templateUrl: 'content/public/library/library.html',
+            controller: 'LibraryController'
+        }).when('/contest', {
+            templateUrl: 'content/public/contest/contest.html',
+            controller: 'ContestController'
+        }).when('/rank', {
+            templateUrl: 'content/public/rank/rank.html',
+            controller: 'RankController'
+        }).when('/about', {
+            templateUrl: 'content/public/about/about.html',
+            controller: 'AboutController'
+        }).otherwise('/');
 
-	$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
-})
-    .config(function($mdThemingProvider, $mdIconProvider){
+        $httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+        $locationProvider.html5Mode({
+            enabled: true,
+            requireBase: false
+        });
+    })
+    .config(function ($mdThemingProvider, $mdIconProvider) {
 
         $mdIconProvider
             .defaultIconSet()
             .icon("home", "./assets/svg/ic_home.svg", 24)
-        .icon("library", "./assets/svg/ic_library.svg", 24)
-        .icon("contest", "./assets/svg/ic_contest.svg", 24)
-        .icon("rank", "./assets/svg/ic_rank.svg", 24)
-        .icon("about", "./assets/svg/ic_about.svg", 24)
+            .icon("library", "./assets/svg/ic_library.svg", 24)
+            .icon("contest", "./assets/svg/ic_contest.svg", 24)
+            .icon("rank", "./assets/svg/ic_rank.svg", 24)
+            .icon("about", "./assets/svg/ic_about.svg", 24)
 
 
-        $mdThemingProvider.theme('dark')
-            //.primaryPalette('brown')
-            //.accentPalette('pink');
+        $mdThemingProvider.theme('default');
+        //.primaryPalette('brown')
+        //.accentPalette('pink');
 
     });
 
 soja.factory("appinfo", function () {
 
     return {
-        name:'SOJA'
+        name: 'SOJA'
     }
 });
 
-soja.factory('TokenStorage', function() {
-	var storageKey = 'auth_token';
-	return {		
-		store : function(token) {
-			return localStorage.setItem(storageKey, token);
-		},
-		retrieve : function() {
-			return localStorage.getItem(storageKey);
-		},
-		clear : function() {
-			return localStorage.removeItem(storageKey);
-		}
-	};
-}).factory('TokenAuthInterceptor',['$q','$location','TokenStorage',function($q,$location, TokenStorage) {
-	return {
-		request: function(config) {
-			var authToken = TokenStorage.retrieve();
-			if (authToken) {
-				config.headers['X-AUTH-TOKEN'] = authToken;
-			}
-			return config;
-		},
-		responseError: function(error) {
-			if (error.status === 401 || error.status === 403) {
-				TokenStorage.clear();
-				//$location.path('/login')
-			}
-			return $q.reject(error);
-		}
-	};
-}]).config(function($httpProvider) {
-	$httpProvider.interceptors.push('TokenAuthInterceptor');
+soja.factory('TokenStorage', function () {
+    var storageKey = 'auth_token';
+    return {
+        store: function (token) {
+            return localStorage.setItem(storageKey, token);
+        },
+        retrieve: function () {
+            return localStorage.getItem(storageKey);
+        },
+        clear: function () {
+            return localStorage.removeItem(storageKey);
+        }
+    };
+}).factory('TokenAuthInterceptor', ['$q', '$location', 'TokenStorage', function ($q, $location, TokenStorage) {
+    return {
+        request: function (config) {
+            var authToken = TokenStorage.retrieve();
+            if (authToken) {
+                config.headers['X-AUTH-TOKEN'] = authToken;
+            }
+            return config;
+        },
+        responseError: function (error) {
+            if (error.status === 401 || error.status === 403) {
+                TokenStorage.clear();
+                //$location.path('/login')
+            }
+            return $q.reject(error);
+        }
+    };
+}]).config(function ($httpProvider) {
+    $httpProvider.interceptors.push('TokenAuthInterceptor');
 });
 
 
+soja.controller('AppController', ['$scope', '$http', 'TokenStorage', 'menu', function ($scope, $http, TokenStorage, menu) {
 
-soja.controller('AppController',['$scope','$http','TokenStorage','menu',function ($scope, $http, TokenStorage,menu) {
-
-	var auth = this;
+    var auth = this;
 
     $scope.menu = menu;
 
-	$scope.authenticated = false;
-	$scope.token; // For display purposes only
-	$scope.credentials = {}
+    $scope.authenticated = false;
+    $scope.token; // For display purposes only
+    $scope.user = {}
 
 
-	$scope.init = function () {
-		$http.get('/api/users/current').success(function (user) {
-			if(user.username !== 'anonymousUser'){
-				$scope.authenticated = true;
-				$scope.username = user.username;
-				
-				// For display purposes only
-				$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
-			}
-		});
-	};
+    $scope.init = function () {
+        $http.get('/api/users/current').success(function (user) {
+            if (user.username !== 'anonymousUser') {
+                $scope.authenticated = true;
+                $scope.username = user.username;
 
-	$scope.login = function () {
+                // For display purposes only
+                $scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
+            }
+        });
+    };
 
-		$http.post('/api/login', { username: $scope.credentials.username, password: $scope.credentials.password }).success(function (result, status, headers) {
-			$scope.authenticated = true;
-			TokenStorage.store(headers('X-AUTH-TOKEN'));
-			
-			// For display purposes only
-			$scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
-		});  
-	};
+    $scope.login = function () {
 
-	$scope.logout = function () {
-		// Just clear the local storage
-		TokenStorage.clear();	
-		$scope.authenticated = false;
-	};
+        $http.post('/api/login', {
+            username: $scope.user.username,
+            password: $scope.user.password
+        }).success(function (result, status, headers) {
+            $scope.authenticated = true;
+            TokenStorage.store(headers('X-AUTH-TOKEN'));
+
+            // For display purposes only
+            $scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
+        });
+    };
+
+    $scope.logout = function () {
+        // Just clear the local storage
+        TokenStorage.clear();
+        $scope.authenticated = false;
+    };
 }]);

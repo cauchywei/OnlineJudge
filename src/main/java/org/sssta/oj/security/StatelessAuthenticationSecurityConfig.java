@@ -43,10 +43,13 @@ public class StatelessAuthenticationSecurityConfig extends WebSecurityConfigurer
 
                         //allow anonymous resource requests
                 .antMatchers("/").permitAll()
-                .antMatchers("/js/**", "/bower_components/angular/angular.js", "/bower_components/angular-route/angular-route.js").permitAll()
-                .antMatchers("/index.html", "/home.html", "/login.html").permitAll()
+                .antMatchers("/js/**", "/lib/**/**").permitAll()
+                .antMatchers("/assets/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/index.html",
+                        "/login.html",
+                        "/content/public/**").permitAll()
                 .antMatchers("/favicon.ico").permitAll()
-                .antMatchers("/resources/**").permitAll()
 
                 //allow anonymous POSTs to login
                 .antMatchers(HttpMethod.POST, "/api/login").permitAll()
