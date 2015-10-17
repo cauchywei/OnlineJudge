@@ -15,8 +15,8 @@
                     <input md-maxlength="16" maxlength="16" minlength="4" required name="username"
                            ng-model="credentials.username">
 
-                    <div ng-messages="registerForm.username.$error">
-                        <div ng-message="required">用户名不能为空.</div>
+                    <div ng-messages="loginForm.username.$error" >
+                        <div ng-message="required" ng-if="!loginForm.username.$pristine">用户名不能为空.</div>
                         <div ng-message="minlength">用户名不得小于4位.</div>
                     </div>
 
@@ -30,13 +30,13 @@
                     <label>昵称</label>
                     <input required name="nickname" md-maxlength="8" maxlength="8" ng-model="credentials.nickname">
 
-                    <div ng-messages="registerForm.nickname.$error">
-                        <div ng-message="required">昵称不能为空</div>
+                    <div ng-messages="loginForm.nickname.$error" >
+                        <div ng-message="required" ng-if="!loginForm.nickname.$pristine">昵称不能为空</div>
                     </div>
                 </md-input-container>
                 <md-input-container>
                     <label>性别</label>
-                    <md-select ng-model="user.grade">
+                    <md-select ng-model="user.grade" ng-init="user.grade='男'" required>
                         <md-option value="男">
                             男
                         </md-option>
@@ -53,17 +53,25 @@
             <div layout="row">
                 <md-input-container>
                     <label>密码</label>
-                    <input required type="password" name="password" ng-model="credentials.password"
+                    <input required type="{{showpassword?'text':'password'}}" name="password" ng-model="credentials.password"
                            minlength="4" maxlength="16" md-maxlength="16"/>
 
-                    <div ng-messages="registerForm.password.$error">
-                        <div ng-message-exp="['required', 'minlength', 'maxlength']">
-                            密码长度必须在4-16位之间.
+                    <div ng-messages="loginForm.password.$error">
+                        <div ng-message-exp="['required', 'minlength', 'maxlength']" ng-if="!loginForm.password.$pristine">
+                            密码长度必须在4-16位之间
                         </div>
                     </div>
                 </md-input-container>
+                <md-input-container>
+                    <!--<md-checkbox style="margin-bottom: 0" ng-model="showpassword" aria-label="显示密码">显示密码</md-checkbox>-->
+                    <input type="checkbox" ng-model="showpassword" id="show" />
+                </md-input-container>
             </div>
-            <md-button ng-click="app.register()" ng-disabled="registerForm.$invalid" class="md-raised md-primary ">注册</md-button>
+
+            <div layout="row">
+                <md-button ng-click="auth.register()" ng-disabled="loginForm.$invalid" class="md-raised md-primary ">注册</md-button>
+                <md-button>已有账号？点击登录</md-button>
+            </div>
         </form>
         </div>
     </md-content>

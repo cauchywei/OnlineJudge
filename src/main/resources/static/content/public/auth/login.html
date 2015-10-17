@@ -1,0 +1,48 @@
+<div layout="column" ng-cloak="" ng-init="init()">
+    <md-toolbar class="md-whiteframe-z2 content-header">
+        <h1 class="md-toolbar-tools md-display-1">
+            <b>登录</b>
+        </h1>
+    </md-toolbar>
+
+    <br/>
+    <p ng-show="feedback">{{feedback}}</p>
+    <md-content class="login-register-form" layout-padding>
+        <div layout="column" layout-align="center center">
+            <form name="loginForm" novalidate>
+                <div layout="row">
+                    <md-input-container>
+                        <label>用户名</label>
+                        <input md-maxlength="16" maxlength="16" minlength="4" required name="username"
+                               ng-model="credentials.username">
+
+                        <div ng-messages="loginForm.username.$error">
+                            <div ng-message="required" ng-if="!loginForm.username.$pristine">用户名不能为空.</div>
+                        </div>
+
+                    </md-input-container>
+                </div>
+
+
+                <div layout="row">
+                    <md-input-container>
+                        <label>密码</label>
+                        <input required type="{{showpassword?'text':'password'}}" name="password" ng-model="credentials.password"
+                               maxlength="16" md-maxlength="16"/>
+
+                        <div ng-messages="loginForm.password.$error">
+                            <div ng-message="required" ng-if="!loginForm.password.$pristine">
+                                密码长度必须在4-16位之间
+                            </div>
+                        </div>
+                    </md-input-container>
+                    <md-input-container>
+                        <!--<md-checkbox style="margin-bottom: 0" ng-model="showpassword" aria-label="显示密码">显示密码</md-checkbox>-->
+                        <input type="checkbox" ng-model="showpassword" id="show" />
+                    </md-input-container>
+                </div>
+                 <md-button ng-click="login(credentials)" ng-disabled="loginForm.$invalid" class="md-raised md-primary ">登录</md-button>
+            </form>
+        </div>
+    </md-content>
+</div>

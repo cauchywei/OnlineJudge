@@ -56,25 +56,6 @@ public class Application {
         return "redirect:/#"+mvcPath;
     }
 
-//    @RequestMapping("/library/**")
-//    public String library() {
-//        return "forward:/#/library";
-//    }
-//
-//    @RequestMapping("/contest/**")
-//    public String contest() {
-//        return "forward:/#/contest";
-//    }
-//
-//    @RequestMapping("/rank/**")
-//    public String rank() {
-//        return "forward:/#/rank";
-//    }
-//
-//    @RequestMapping("/about/**")
-//    public String about() {
-//        return "forward:/#/about";
-//    }
     @RequestMapping("/test")
     @ResponseBody
     public String test() {

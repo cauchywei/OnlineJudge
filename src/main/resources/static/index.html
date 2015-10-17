@@ -33,11 +33,11 @@
             <div style="text-align:center;">
 
                 <div>
-                    <img src="assets/avatar.png" ng-show="auth.authenticated" class="avatar"/>
+                    <img src="assets/avatar.png" ng-if="auth.authenticated" class="avatar"/>
                     <b >user.username</b>
                 </div>
-                <a href="/register">
-                    <img src="assets/default-avatar.png" ng-show="!auth.authenticated" class="avatar"/>
+                <a href="/login">
+                    <img src="assets/default-avatar.png" ng-if="!auth.authenticated" class="avatar"/>
                     <b id="nav-login">登录</b>
                 </a>
             </div>
@@ -68,9 +68,15 @@
 <script src="lib/angular-material/angular-material.js" type="text/javascript"></script>
 <script src="lib/angular-aria/angular-aria.js" type="text/javascript"></script>
 <script src="lib/angular-messages/angular-messages.js" type="text/javascript"></script>
+
 <script src="content/public/auth/auth.js" type="text/javascript"></script>
+
 <script src="js/app.js" type="text/javascript"></script>
 <script src="js/menu.js" type="text/javascript"></script>
+
+<script src="content/public/auth/login-controller.js" type="text/javascript"></script>
+<script src="content/public/auth/register-controller.js" type="text/javascript"></script>
+
 <script src="content/public/library/library-controller.js" type="text/javascript"></script>
 <script src="content/public/contest/contest-controller.js" type="text/javascript"></script>
 <script src="content/public/rank/rank-controller.js" type="text/javascript"></script>

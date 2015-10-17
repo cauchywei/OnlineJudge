@@ -20,19 +20,24 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
             logoutPath: '/logout',
             homePath: '/',
             path: $location.path(),
-            user: {grade: '男'},
+            user: {},
+            logining:false,
+            registering:false,
 
-            authenticate: function (credentials, callback) {
+            authenticate: function (credentials,callback) {
+                logining = true;
                 $http.post('/api/login', {
                     username: credentials.username,
                     password: credentials.password
                 }).success(function (result, status, headers) {
+                    auth.logining = false;
                     auth.authenticated = true;
                     auth.user = result;
                     TokenStorage.store(headers('X-AUTH-TOKEN'));
                     callback && callback(result);
                     $location.path(auth.path == auth.loginPath ? auth.homePath : auth.path);
                 }).error(function () {
+                    auth.logining = false;
                     auth.authenticated = false;
                     callback && callback(false);
                 });
@@ -50,6 +55,7 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
                 auth.loginPath = loginPath;
                 auth.logoutPath = logoutPath;
 
+
                 $http.get('/api/users/current').success(function (user) {
                     if (user.username !== 'anonymousUser') {
                         auth.authenticated = true;
@@ -59,7 +65,7 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
                 });
 
 
-            }
+            },
 
         };
 

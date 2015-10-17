@@ -5,7 +5,11 @@ var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages','auth'])
         $routeProvider.when('/', {
             templateUrl: 'content/public/home/home.html'
         }).when('/register', {
-            templateUrl: 'register.html'
+            templateUrl: 'content/public/auth/register.html',
+            controller:'RegisterController'
+        }).when('/login', {
+            templateUrl: 'content/public/auth/login.html',
+            controller:'LoginController'
         }).when('/library', {
             templateUrl: 'content/public/library/library.html',
             controller: 'LibraryController'
