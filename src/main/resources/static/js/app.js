@@ -1,4 +1,4 @@
-var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages'])
+var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages','auth'])
 
     .config(function ($routeProvider, $httpProvider, $locationProvider) {
 
@@ -25,6 +25,7 @@ var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages'])
             enabled: true,
             requireBase: false
         });
+
     })
     .config(function ($mdThemingProvider, $mdIconProvider) {
 
@@ -41,7 +42,10 @@ var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages'])
         //.primaryPalette('brown')
         //.accentPalette('pink');
 
-    });
+    })
+    //.run(['auth',function (auth) {
+    //
+    //}]);
 
 soja.factory("appinfo", function () {
 
@@ -85,46 +89,11 @@ soja.factory('TokenStorage', function () {
 });
 
 
-soja.controller('AppController', ['$scope', '$http', 'TokenStorage', 'menu', function ($scope, $http, TokenStorage, menu) {
+soja.controller('AppController', ['$scope', '$http', 'TokenStorage', 'menu','auth', function ($scope, $http, TokenStorage, menu,auth) {
+        $scope.menu = menu;
+        $scope.init = function () {
+            auth.init('/','/login','/register');
+        };
 
-    var auth = this;
-
-    $scope.menu = menu;
-
-    $scope.authenticated = false;
-    $scope.token; // For display purposes only
-    $scope.user = {grade:'男'}
-
-
-    $scope.init = function () {
-        $http.get('/api/users/current').success(function (user) {
-            if (user.username !== 'anonymousUser') {
-                $scope.authenticated = true;
-                $scope.username = user.username;
-
-                // For display purposes only
-                $scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
-            }
-        });
-    };
-
-    $scope.login = function () {
-
-        $http.post('/api/login', {
-            username: $scope.user.username,
-            password: $scope.user.password
-        }).success(function (result, status, headers) {
-            $scope.authenticated = true;
-            TokenStorage.store(headers('X-AUTH-TOKEN'));
-
-            // For display purposes only
-            $scope.token = JSON.parse(atob(TokenStorage.retrieve().split('.')[0]));
-        });
-    };
-
-    $scope.logout = function () {
-        // Just clear the local storage
-        TokenStorage.clear();
-        $scope.authenticated = false;
-    };
+        $scope.auth = auth;
 }]);
