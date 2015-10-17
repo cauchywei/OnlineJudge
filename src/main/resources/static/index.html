@@ -33,12 +33,12 @@
             <div style="text-align:center;">
 
                 <div>
-                    <img ng-src="app.avatar" ng-show="app.authenticated" class="avatar"/>
+                    <img src="assets/avatar.png" ng-show="app.authenticated" class="avatar"/>
                     <b >user.username</b>
                 </div>
-                <a href="/login">
+                <a href="/register">
                     <img src="assets/default-avatar.png" ng-show="!app.authenticated" class="avatar"/>
-                    <b >未登录</b>
+                    <b id="nav-login">登录</b>
                 </a>
             </div>
         </header>

@@ -1,0 +1,70 @@
+<div layout="column" ng-cloak="">
+    <md-toolbar class="md-whiteframe-z2 content-header">
+        <h1 class="md-toolbar-tools md-display-1">
+            <b>注册</b>
+        </h1>
+    </md-toolbar>
+
+    <br/>
+    <md-content class="login-register-form" layout-padding>
+        <div layout="column" layout-align="center center">
+        <form name="registerForm"  novalidate>
+            <div layout="row">
+                <md-input-container>
+                    <label>用户名</label>
+                    <input md-maxlength="16" maxlength="16" minlength="4" required name="username"
+                           ng-model="credentials.username">
+
+                    <div ng-messages="registerForm.username.$error">
+                        <div ng-message="required">用户名不能为空.</div>
+                        <div ng-message="minlength">用户名不得小于4位.</div>
+                    </div>
+
+                </md-input-container>
+            </div>
+
+
+            <div layout="row">
+
+                <md-input-container>
+                    <label>昵称</label>
+                    <input required name="nickname" md-maxlength="8" maxlength="8" ng-model="credentials.nickname">
+
+                    <div ng-messages="registerForm.nickname.$error">
+                        <div ng-message="required">昵称不能为空</div>
+                    </div>
+                </md-input-container>
+                <md-input-container>
+                    <label>性别</label>
+                    <md-select ng-model="user.grade">
+                        <md-option value="男">
+                            男
+                        </md-option>
+                        <md-option value="女">
+                            女
+                        </md-option>
+                        <md-option value="保密">
+                            保密
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+            </div>
+
+            <div layout="row">
+                <md-input-container>
+                    <label>密码</label>
+                    <input required type="password" name="password" ng-model="credentials.password"
+                           minlength="4" maxlength="16" md-maxlength="16"/>
+
+                    <div ng-messages="registerForm.password.$error">
+                        <div ng-message-exp="['required', 'minlength', 'maxlength']">
+                            密码长度必须在4-16位之间.
+                        </div>
+                    </div>
+                </md-input-container>
+            </div>
+            <md-button ng-click="app.register()" ng-disabled="registerForm.$invalid" class="md-raised md-primary ">注册</md-button>
+        </form>
+        </div>
+    </md-content>
+</div>

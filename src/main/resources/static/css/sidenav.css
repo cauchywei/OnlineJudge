@@ -45,11 +45,6 @@ md-sidenav md-list .md-button {
     min-height: 0;
 }
 
-md-sidenav md-list .md-button.active,
-md-sidenav md-list .md-button :hover,
-md-sidenav md-list .md-list-item.md-hover {
-    color: #13171a !important;
-}
 
 md-list md-list-item button.md-button:not([disabled]):hover {
     background-color: #344149 !important;
@@ -99,4 +94,14 @@ md-sidenav .copyright{
     text-align: center;
     position: absolute;
     bottom: 0;
+}
+
+#nav-login {
+    text-decoration: none;
+    /*border: 1px solid #9E9E9E;*/
+    padding: 6px 20px;
+    font-size: small;
+    color: white;
+    border-radius: 4px;
+    background: #7572e1;
 }

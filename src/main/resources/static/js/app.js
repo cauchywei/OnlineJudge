@@ -1,11 +1,11 @@
-var soja = angular.module('soja', ['ngRoute', 'ngMaterial', /*,'ngMessage'*/])
+var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages'])
 
     .config(function ($routeProvider, $httpProvider, $locationProvider) {
 
         $routeProvider.when('/', {
             templateUrl: 'content/public/home/home.html'
-        }).when('/login', {
-            templateUrl: 'login.html'
+        }).when('/register', {
+            templateUrl: 'register.html'
         }).when('/library', {
             templateUrl: 'content/public/library/library.html',
             controller: 'LibraryController'
@@ -93,7 +93,7 @@ soja.controller('AppController', ['$scope', '$http', 'TokenStorage', 'menu', fun
 
     $scope.authenticated = false;
     $scope.token; // For display purposes only
-    $scope.user = {}
+    $scope.user = {grade:'男'}
 
 
     $scope.init = function () {
