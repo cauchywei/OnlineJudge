@@ -34,7 +34,7 @@
 
                 <a href="/login" ng-click="!auth.authenticated && auth.enter()">
                     <img ng-src="{{auth.authenticated?'assets/avatar.png':'assets/default-avatar.png'}}" class="avatar"/>
-                    <b class="username" ng-if="auth.authenticated">{{auth.user.username}}</b>
+                    <b class="username" ng-if="auth.authenticated">{{auth.user.nickname}}</b>
                     <b id="nav-login" ng-if="!auth.authenticated">登录</b>
                 </a>
             </div>

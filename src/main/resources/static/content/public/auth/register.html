@@ -36,7 +36,7 @@
                 </md-input-container>
                 <md-input-container>
                     <label>性别</label>
-                    <md-select ng-model="user.grade" ng-init="user.grade='男'" required>
+                    <md-select ng-model="user.gender" ng-init="user.grade='男'" required>
                         <md-option value="男">
                             男
                         </md-option>
@@ -49,6 +49,17 @@
                     </md-select>
                 </md-input-container>
             </div>
+
+            <md-input-container>
+                <label>邮箱</label>
+                <input type="email" name="email" ng-model="credentials.email"
+                       ng-pattern="/^.+@.+\..+$/" />
+                <div ng-messages="registerForm.email.$error" role="alert">
+                    <div ng-message="pattern" ng-if="!loginForm.email.$pristine">
+                        好像这并不是一个正确的邮箱地址
+                    </div>
+                </div>
+            </md-input-container>
 
             <div layout="row">
                 <md-input-container>
@@ -68,7 +79,7 @@
                 </md-input-container>
             </div>
 
-                <md-button ng-click="auth.register()" ng-disabled="loginForm.$invalid" class="md-raised md-primary ">注册</md-button>
+                <md-button ng-click="auth.register(credentials)" ng-disabled="loginForm.$invalid && !registering" class="md-raised md-primary ">注册</md-button>
         </form>
         </div>
     </md-content>

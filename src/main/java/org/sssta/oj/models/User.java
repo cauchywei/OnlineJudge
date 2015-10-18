@@ -34,9 +34,19 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	private String gender;
+	private String avatar;
+	private Long registerTime;
+	private Long latestActiveTime;
+	private String email;
+
 	@NotNull
 	@Size(min = 4, max = 30)
 	private String username;
+
+	@NotNull
+	@Size(min = 4, max = 30)
+	private String nickname;
 
 	@NotNull
 	@Size(min = 4, max = 100)
@@ -176,5 +186,71 @@ public class User implements UserDetails {
 	@Override
 	public String toString() {
 		return getClass().getSimpleName() + ": " + getUsername();
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	public Long getRegisterTime() {
+		return registerTime;
+	}
+
+	public void setRegisterTime(Long registerTime) {
+		this.registerTime = registerTime;
+	}
+
+	public Long getLatestActiveTime() {
+		return latestActiveTime;
+	}
+
+	public void setLatestActiveTime(Long latestActiveTime) {
+		this.latestActiveTime = latestActiveTime;
+	}
+
+	public class PublicUser {
+		long userId;
+		String username;
+		String nickname;
+		String avatar;
+		String gender;
+		long registerTime;
+
+		PublicUser(User user) {
+			userId = user.id;
+			username = user.username;
+			nickname = user.nickname;
+			gender = user.gender;
+			avatar = user.avatar;
+			registerTime = user.registerTime;
+		}
 	}
 }
