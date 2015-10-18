@@ -27,7 +27,7 @@
                 <div layout="row">
                     <md-input-container>
                         <label>密码</label>
-                        <input required type="password'" name="password" ng-model="credentials.password"
+                        <input required type="password" name="password" ng-model="credentials.password"
                                maxlength="16" md-maxlength="16"/>
 
                         <div ng-messages="loginForm.password.$error">
@@ -37,7 +37,10 @@
                         </div>
                     </md-input-container>
                 </div>
-                 <md-button ng-click="login(credentials)" ng-disabled="loginForm.$invalid" class="md-raised md-primary ">登录</md-button>
+                <div layout="row">
+                    <md-button ng-click="login(credentials)" ng-disabled="loginForm.$invalid && !logining" class="md-raised md-primary ">登录</md-button>
+                    <md-button ng-click="register()">没有账号？点击注册</md-button>
+                </div>
             </form>
         </div>
     </md-content>

@@ -23,4 +23,8 @@ soja.controller('LoginController', ['auth','$scope','$location',function (auth,$
             }
         })
     };
+
+    $scope.register = function () {
+        $location.path('/register');
+    };
 }]);

@@ -67,6 +67,7 @@ md-sidenav #header-title{
 
 md-sidenav .nav-header {
     margin-bottom: 16px;
+    height: 130px;
 }
 
 md-sidenav .nav-header .avatar {
@@ -104,4 +105,11 @@ md-sidenav .copyright{
     color: white;
     border-radius: 4px;
     background: #7572e1;
+}
+
+#nav-logout {
+    color: #d7d4c6;
+    position: absolute;
+    margin-top: 5px;
+    margin-left: 5px;
 }

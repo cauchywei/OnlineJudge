@@ -6,14 +6,12 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
 
 
         var auth = {
-            authenticated: false,
+            authenticated: TokenStorage.retrieve()?true:false,
             loginPath: '/login',
             logoutPath: '/logout',
             homePath: '/',
             path: $location.path(),
             user: {},
-            logining: false,
-            registering: false,
 
             enter: function () {
                 if ($location.path != auth.loginPath) {
@@ -25,19 +23,18 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
             },
 
             authenticate: function (credentials, callback) {
-                logining = true;
                 $http.post('/api/login', {
                     username: credentials.username,
                     password: credentials.password
                 }).success(function (result, status, headers) {
-                    auth.logining = false;
                     auth.authenticated = true;
-                    auth.user = result;
-                    TokenStorage.store(headers('X-AUTH-TOKEN'));
+                    var token = headers('X-AUTH-TOKEN');
+                    auth.user = JSON.parse(atob(token.split('.')[0]));
+                    TokenStorage.store(token);
+
                     callback && callback(result);
                     $location.path(auth.path == auth.loginPath ? auth.homePath : auth.path);
                 }).error(function () {
-                    auth.logining = false;
                     auth.authenticated = false;
                     callback && callback(false);
                 });
@@ -57,9 +54,10 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
 
 
                 $http.get('/api/users/current').success(function (user) {
+                    auth.user = user;
+
                     if (user.username !== 'anonymousUser') {
                         auth.authenticated = true;
-                        auth.user.username = user.username;
 
                     }
                 });

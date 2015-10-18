@@ -32,16 +32,13 @@
         <header class="nav-header">
             <div style="text-align:center;">
 
-                <div>
-                    <img src="assets/avatar.png" ng-if="auth.authenticated" class="avatar"/>
-                    <b class="username">{{auth.user.username}}</b>
-                </div>
-                <a href="/login" ng-show="!auth.authenticated"  ng-if="!auth.authenticated" ng-click="auth.enter()">
-                    <img src="assets/default-avatar.png" class="avatar"/>
-                    <b id="nav-login">登录</b>
+                <a href="/login" ng-click="!auth.authenticated && auth.enter()">
+                    <img ng-src="{{auth.authenticated?'assets/avatar.png':'assets/default-avatar.png'}}" class="avatar"/>
+                    <b class="username" ng-if="auth.authenticated">{{auth.user.username}}</b>
+                    <b id="nav-login" ng-if="!auth.authenticated">登录</b>
                 </a>
             </div>
-            <div ng-if="auth.authenticated" ng-click="auth.clear()">登出</div>
+            <div id="nav-logout" ng-if="auth.authenticated" ng-click="auth.clear()">登出</div>
         </header>
         <md-content flex role="navigation">
             <md-list>

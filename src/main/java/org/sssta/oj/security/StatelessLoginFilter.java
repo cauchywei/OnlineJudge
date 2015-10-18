@@ -27,6 +27,15 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 		this.userDetailsService = userDetailsService;
 		this.tokenAuthenticationService = tokenAuthenticationService;
 		setAuthenticationManager(authManager);
+//		setAuthenticationSuccessHandler(new AuthenticationSuccessHandler() {
+//			@Override
+//			public void onAuthenticationSuccess(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Authentication authentication) throws IOException, ServletException {
+//				authentication.getPrincipal();
+//				ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+//
+//				httpServletResponse.setStatus(HttpServletResponse.SC_OK);
+//			}
+//		});
 	}
 
 	@Override
@@ -52,4 +61,6 @@ class StatelessLoginFilter extends AbstractAuthenticationProcessingFilter {
 		// Add the authentication to the Security context
 		SecurityContextHolder.getContext().setAuthentication(userAuthentication);
 	}
+
+
 }
