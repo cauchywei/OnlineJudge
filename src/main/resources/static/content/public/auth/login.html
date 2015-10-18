@@ -27,7 +27,7 @@
                 <div layout="row">
                     <md-input-container>
                         <label>密码</label>
-                        <input required type="{{showpassword?'text':'password'}}" name="password" ng-model="credentials.password"
+                        <input required type="password'" name="password" ng-model="credentials.password"
                                maxlength="16" md-maxlength="16"/>
 
                         <div ng-messages="loginForm.password.$error">
@@ -35,10 +35,6 @@
                                 密码长度必须在4-16位之间
                             </div>
                         </div>
-                    </md-input-container>
-                    <md-input-container>
-                        <!--<md-checkbox style="margin-bottom: 0" ng-model="showpassword" aria-label="显示密码">显示密码</md-checkbox>-->
-                        <input type="checkbox" ng-model="showpassword" id="show" />
                     </md-input-container>
                 </div>
                  <md-button ng-click="login(credentials)" ng-disabled="loginForm.$invalid" class="md-raised md-primary ">登录</md-button>

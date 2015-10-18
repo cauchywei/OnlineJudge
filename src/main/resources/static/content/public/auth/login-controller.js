@@ -5,10 +5,6 @@ soja.controller('LoginController', ['auth','$scope','$location',function (auth,$
     $scope.logining = false;
     $scope.credentials = {}
 
-    $scope.$on('$routeChangeStart', function() {
-        enter();
-    });
-
     $scope.init = function() {
         if(auth.authenticated) {
             $location.path('/home');

@@ -3,7 +3,8 @@ var soja = angular.module('soja', ['ngRoute', 'ngMaterial','ngMessages','auth'])
     .config(function ($routeProvider, $httpProvider, $locationProvider) {
 
         $routeProvider.when('/', {
-            templateUrl: 'content/public/home/home.html'
+            templateUrl: 'content/public/home/home.html',
+            controller:'HomeController'
         }).when('/register', {
             templateUrl: 'content/public/auth/register.html',
             controller:'RegisterController'

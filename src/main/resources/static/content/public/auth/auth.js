@@ -5,15 +5,6 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
     function ($rootScope, $http, $location, TokenStorage) {
 
 
-        this.enter = function () {
-            if ($location.path != auth.loginPath) {
-                auth.path = $location.path();
-                if (!auth.authenticated) {
-                    $location.path(auth.loginPath);
-                }
-            }
-        };
-
         var auth = {
             authenticated: false,
             loginPath: '/login',
@@ -21,10 +12,19 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
             homePath: '/',
             path: $location.path(),
             user: {},
-            logining:false,
-            registering:false,
+            logining: false,
+            registering: false,
 
-            authenticate: function (credentials,callback) {
+            enter: function () {
+                if ($location.path != auth.loginPath) {
+                    auth.path = $location.path();
+                    if (!auth.authenticated) {
+                        $location.path(auth.loginPath);
+                    }
+                }
+            },
+
+            authenticate: function (credentials, callback) {
                 logining = true;
                 $http.post('/api/login', {
                     username: credentials.username,
@@ -65,7 +65,7 @@ angular.module('auth', []).factory('auth', ['$rootScope', '$http', '$location', 
                 });
 
 
-            },
+            }
 
         };
 
